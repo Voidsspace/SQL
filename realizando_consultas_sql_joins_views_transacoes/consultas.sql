@@ -26,5 +26,5 @@ INNER join pedidos as p on c.id = p.idcliente
 select p.id, i.idpedido, i.idproduto from itenspedidos i 
 	right JOIN  produtos p on p.id = i.idproduto
     
-select * from pedidos where idpedido in (select i.idpedido from itenspedidos i 
-	right JOIN  produtos p on p.id = i.idproduto)
+select p.nome, x.idpedido, x.idproduto from(SELECT ip.idproduto,ip.idpedido from pedidos pe INNER join itenspedidos ip on pe.id = ip.idpedido where strftime('%m',datahorapedido) = '10') x
+right JOIN  produtos p on p.id = x.idproduto
