@@ -28,3 +28,35 @@ select p.id, i.idpedido, i.idproduto from itenspedidos i
     
 select p.nome, x.idpedido, x.idproduto from(SELECT ip.idproduto,ip.idpedido from pedidos pe INNER join itenspedidos ip on pe.id = ip.idpedido where strftime('%m',datahorapedido) = '10') x
 right JOIN  produtos p on p.id = x.idproduto
+
+-- Filtrar clientes que não realizaram comprar em um determinado mês. 
+
+select c.nome, p.status, p.datahorapedido from clientes c
+left join pedidos p on c.id = p.idcliente 
+
+select c.nome, x.id , x.idcliente from clientes c
+left join (select p.id, p.idcliente from pedidos p where strftime('%m', p.datahorapedido) = '10') x on c.id = x.idcliente where x.idcliente is null
+
+-- Retornar pedidos cuja não tem clientes vinculados. 
+select c.nome, p.id from clientes c
+full join pedidos p on c.id = p.idcliente WHERE c.nome ISNULL
+
+-- Calcular o preço total de um pedido. 
+
+SELECT idpedido, quantidade, precounitario,(quantidade * precounitario) as 'Preço total' from itenspedidos
+
+SELECT cli.nome,p.id as idpedido,pro.nome, x.quantidade, x.precounitario, x.precototal, p.datahorapedido from pedidos p
+RIGHT join (SELECT idpedido,quantidade,precounitario,idproduto,(quantidade * precounitario) as precototal from itenspedidos) x on x.idpedido = p.id
+inner join clientes cli on p.idcliente = cli.id 
+inner join produtos pro on x.idproduto = pro.id
+
+-- Criação de view para facilitar a consulta de relatorios. 
+
+create VIEW viewprecototal as 
+
+SELECT cli.nome,p.id as idpedido,pro.nome, x.quantidade, x.precounitario, x.precototal, p.datahorapedido from pedidos p
+RIGHT join (SELECT idpedido,quantidade,precounitario,idproduto,(quantidade * precounitario) as precototal from itenspedidos) x on x.idpedido = p.id
+inner join clientes cli on p.idcliente = cli.id 
+inner join produtos pro on x.idproduto = pro.id
+
+SELECT * from viewprecototal
