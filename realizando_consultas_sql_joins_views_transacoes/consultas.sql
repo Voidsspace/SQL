@@ -60,3 +60,73 @@ inner join clientes cli on p.idcliente = cli.id
 inner join produtos pro on x.idproduto = pro.id
 
 SELECT * from viewprecototal
+
+-- Criando calculo de faturamento diario e automatizando com Trigger 
+
+select date(datahorapedido) as dia, sum(ip.precounitario * ip.quantidade) from pedidos p
+join itenspedidos ip
+on ip.idpedido = p.id 
+GROUP BY dia ORDER by dia	
+
+CREATE TABLE faturamentodiario(
+  	
+  	dia date,
+  	faturamentototal decimal (10,2))
+    
+    
+insert into faturamentodiario(dia,faturamentototal)
+select date(datahorapedido) as dia, sum(ip.precounitario * ip.quantidade) 
+        from pedidos p join itenspedidos ip on ip.idpedido = p.id 
+		GROUP BY dia ORDER by dia;
+    
+CREATE TRIGGER calculafaturamentodiario
+AFTER INSERT on itenspedidos
+for EACH ROW
+
+BEGIN
+DELETE FROM faturamentodiario;
+insert into faturamentodiario(dia,faturamentototal)
+select date(datahorapedido) as dia, sum(ip.precounitario * ip.quantidade) 
+        from pedidos p join itenspedidos ip on ip.idpedido = p.id 
+		GROUP BY dia ORDER by dia;
+end;
+
+SELECT * from pedidos
+
+INSERT into pedidos
+VALUES(463,27,datetime('now'),'Em andamento');
+
+insert into itenspedidos
+VALUES(463,14,2,6.0),
+	  (463,13,1,7.0)
+      
+SELECT * from faturamentodiario
+
+-- Atualizando dados em tabelas. 
+
+PRAGMA foreign_keys = on -- No SGBD SQLLITE ONLINE as chaves estrageiras das tabelas 
+-- não tem verificação para isso é preciso habilitar essa correspondecia. 
+
+select * from produtos where nome like ('Croiss%')
+
+UPDATE produtos set preco = 13.0 where id =30
+
+UPDATE produtos set descricao ='Croissant recheado com amêndoas' where id = 28
+
+-- Excluir dados que não são mais necessarios. 
+
+SELECT * from colaboradores
+
+DELETE from colaboradores where id = 3
+
+select * from clientes where id = 27
+select * from pedidos where idcliente = 27
+select * from itenspedidos where idpedido = 463
+
+SELECT from 
+
+DELETE from clientes where id = 27 
+
+-- Sempre validar quando configurar nas tabelas on delete casct
+
+update pedidos set status = 'concluido'
