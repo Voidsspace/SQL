@@ -151,9 +151,21 @@ LEFT join itenspedidos i on pr.id = i.idproduto where i.idproduto is NULL
 
 --Liste os nomes dos clientes que fizeram pedidos entre 2023-01-01 e 2023-12-31.
 
+SELECT x.nome from (select c. nome, p.datahorapedido from clientes c
+left join pedidos p on c.id = p.idcliente ) as x
+where x.datahorapedido BETWEEN '2023-01-01' and '2023-12-31'
+
+
 --Recupere os nomes dos produtos que estão em menos de 15 pedidos.
+
 
 --Liste os produtos e o ID do pedido que foram realizados pelo cliente 
 --"Pedro Alves" ou pela cliente "Ana Rodrigues".
+
+select c.nome as nomecliente, p.nome as nomeproduto, pe.id as idpedido from produtos p 
+inner join itenspedidos it on p.id = it.idproduto
+inner join pedidos pe on pe.id = it.idpedido
+INNER join clientes c on c.id = pe.idcliente
+where c.nome in ('Pedro Alves','Ana Rodrigues')
 
 --Recupere o nome e o ID do cliente que mais comprou(valor) no Serenatto.
