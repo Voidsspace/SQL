@@ -157,7 +157,17 @@ where x.datahorapedido BETWEEN '2023-01-01' and '2023-12-31'
 
 
 --Recupere os nomes dos produtos que estão em menos de 15 pedidos.
+SELECT * from produtos
+select * from pedidos
 
+insert into produtos
+values (31,'lasanha 4 queijos', 'Uma deliciosa lasanha de 4 queijos', 23.57, 'Almoço')
+
+insert into itenspedidos
+VALUES (463,31,8,23.57)
+
+select p.nome, SUM(i.quantidade) as qtd  from produtos p 
+left JOIN itenspedidos i on p.id = i.idproduto GROUP by p.nome HAVING qtd < 15
 
 --Liste os produtos e o ID do pedido que foram realizados pelo cliente 
 --"Pedro Alves" ou pela cliente "Ana Rodrigues".
@@ -169,3 +179,6 @@ INNER join clientes c on c.id = pe.idcliente
 where c.nome in ('Pedro Alves','Ana Rodrigues')
 
 --Recupere o nome e o ID do cliente que mais comprou(valor) no Serenatto.
+select x.nome, x.idcliente, gastototal from (select c.nome, SUM(i.quantidade * i.precounitario) as gastototal, pe.idcliente from itenspedidos i 
+inner join pedidos pe on pe.id = i.idpedido
+inner join clientes c on c.id = pe.idcliente GROUP by c.nome) as x order by x.gastototal  desc LIMIT 1
