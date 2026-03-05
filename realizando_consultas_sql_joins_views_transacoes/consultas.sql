@@ -182,3 +182,47 @@ where c.nome in ('Pedro Alves','Ana Rodrigues')
 select x.nome, x.idcliente, gastototal from (select c.nome, SUM(i.quantidade * i.precounitario) as gastototal, pe.idcliente from itenspedidos i 
 inner join pedidos pe on pe.id = i.idpedido
 inner join clientes c on c.id = pe.idcliente GROUP by c.nome) as x order by x.gastototal  desc LIMIT 1
+
+
+-- Buscar o nome do professor e a turma que ele é orientador
+SELECT p.Nome_Professor, t.Nome_Turma from Professores p 
+RIGHT join Turmas t on t.ID_Professor_Orientador = p.ID_Professor
+
+-- Retornar o nome e a nota do aluno que possui a melhor nota na disciplina de Matemática
+
+SELECT a.Nome_Aluno, n.Nota from Alunos a 
+inner join Turma_Alunos ta on a.ID_Aluno = ta.ID_Aluno
+inner join Turma_Disciplinas td on ta.ID_Turma = td.ID_Turma
+INNER join Disciplinas d on d.ID_Disciplina = td.ID_Disciplina
+INNER join Notas n on n.ID_Aluno = a.ID_Aluno
+where d.Nome_Disciplina = 'Matemática' ORDER by n.Nota desc LIMIT 1
+
+select * from Disciplinas
+
+--Identificar o total de alunos por turma
+SELECT * FROM Turma_Alunos
+
+select COUNT(ta.ID_Aluno) from Turma_Alunos ta
+INNER join Turmas t on t.ID_Turma = ta.ID_Turma GROUP by t.ID_Turma
+
+--Listar os Alunos e as disciplinas em que estão matriculados
+SELECT * from Turma_Disciplinas
+
+
+SELECT a.Nome_Aluno, d.Nome_Disciplina FROM Alunos a 
+inner join Turma_Alunos ta on a.ID_Aluno = ta.ID_Aluno
+inner join Turma_Disciplinas td on td.ID_Turma = ta.ID_Turma
+inner join Disciplinas d on d.ID_Disciplina = td.ID_Disciplina ORDER by d.Nome_Disciplina
+
+-- Criar uma view que apresenta o nome, a disciplina e a nota dos alunos
+
+create VIEW v_relatorio_alunos as
+
+SELECT a.Nome_Aluno as nome_aluno, d.Nome_Disciplina as nome_disciplina, n.Nota as nota_aluno
+from Alunos a 
+INNER join Turma_Alunos ta on a.ID_Aluno = ta.ID_Aluno
+inner join Turma_Disciplinas td on td.ID_Turma = ta.ID_Turma
+INNER JOIN Disciplinas d on d.ID_Disciplina = td.ID_Disciplina
+inner join Notas n on n.ID_Disciplina = d.ID_Disciplina order by nome_disciplina
+
+select * from v_relatorio_alunos
