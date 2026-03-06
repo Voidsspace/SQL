@@ -1,0 +1,139 @@
+Universidade
+
+	Atributos:
+
+		nome_universidade
+
+		cidade
+
+		quantidade_alunos
+	
+		quantidade_professores
+
+		quantidade_cursos
+
+	Métodos:
+
+		(Abrirportao)
+
+		(Fecharportao)
+
+		(Matricularaluno)
+
+		(Formaraluno)
+
+		(Contratarprofessor)
+
+		(Abrircurso)
+
+Aluno
+
+	Atributos:
+
+		nome_aluno
+
+		idade
+
+		curso
+
+		matricula
+
+		semestre
+
+	Métodos:
+
+		(Estudar)
+
+		(Assistiraula)
+
+		(Fazerprova)
+
+		(Entregartrabalho)
+
+		(Consultarnotas)
+
+		(Solicitarhistorico)
+
+Professor
+
+	Atributos:
+
+		nome_professor
+
+		especialidade
+
+		disciplina
+
+		salario
+
+		titulacao
+
+	Métodos:
+
+		(Daraula)
+
+		(Aplicarprova)
+
+		(Corrigirprova)
+
+		(Orientaraluno)
+
+		(Prepararaula)
+
+		(Lancarnotas)
+
+SalaDeAula
+
+	Atributos:
+
+		numero_sala
+
+		capacidade_alunos
+
+		possui_projetor
+
+		bloco
+
+		tipo_sala
+
+	Métodos:
+
+		(Abrirsala)
+
+		(Fecharsala)
+
+		(Ligaprojetor)
+
+		(Desligarprojetor)
+
+		(Reservarsala)
+
+		(Cancelararreserva)
+
+Biblioteca
+
+	Atributos:
+
+		quantidade_livros
+
+		quantidade_computadores
+
+		horario_funcionamento
+
+		responsavel_biblioteca
+
+		capacidade_estudantes
+
+	Métodos:
+
+		(Emprestarlivro)
+
+		(Devolverlivro)
+
+		(Reservarlivro)
+
+		(Consultarlivro)
+
+		(Abrirbiblioteca)
+
+		(Fecharbiblioteca)
